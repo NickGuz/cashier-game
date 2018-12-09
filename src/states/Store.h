@@ -11,6 +11,8 @@
 #include "../StateMachine.h"
 #include "../DialogueBox.h"
 #include "../Input.h"
+#include "../Food.h"
+#include "../Person.h"
 #include <SDL2/SDL.h>
 
 class Store : public StateMachine
@@ -23,13 +25,19 @@ class Store : public StateMachine
         void handleEvent(SDL_Event* e);
         void update(Input input);
         void dayStart();
+        void spawnCustomer();
 
     private:
+        Food food;
+        Person mCustomer;
         Texture mBackground;
         Texture mCashRegister;
         DialogueBox dbox;
         // inherit this from statemachine
         SDL_Renderer* mRenderer;
+
+        // create vector of customer's foods
+        std::vector<Food> foods;
 };
 
 #endif
