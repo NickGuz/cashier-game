@@ -3,5 +3,5 @@
 Some cashier simulator game. 
 This will be updated later.
 
-## TODO
+### TODO
 - Come up with a name
