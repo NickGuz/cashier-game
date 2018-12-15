@@ -13,6 +13,7 @@
 #include "../Input.h"
 #include "../Food.h"
 #include "../Person.h"
+#include "../Hand.h"
 #include <SDL2/SDL.h>
 
 class Store : public StateMachine
@@ -23,7 +24,7 @@ class Store : public StateMachine
         void render();
         void free();
         void handleEvent(SDL_Event* e);
-        void update(Input input);
+        void update(Input input, Hand hand);
         void dayStart();
         void spawnCustomer();
 

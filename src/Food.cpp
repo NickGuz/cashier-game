@@ -1,12 +1,12 @@
 #include "Food.h"
 
-//std::vector<std::string> usedFoods();
-
 Food::Food()
 {
-    //mRenderer = renderer;
-    //std::vector<std::string> usedFoods();
-    //load();
+    xpos = 0;
+    ypos = 0;
+
+    xvel = 0;
+    yvel = 0;
 }
 
 Food::~Food()
@@ -14,13 +14,14 @@ Food::~Food()
 
 }
 
+
 void Food::init(SDL_Renderer* renderer)
 {
     mRenderer = renderer;
 }
 
 // makes texture out of random food item
-void Food::load()
+void Food::load(int old_x, int prevWidth)
 {
     std::string foodFile = getRandFile("img/food");
     std::cout << foodFile << std::endl;
@@ -32,7 +33,7 @@ void Food::load()
             if (usedFoods[i] == foodFile)
             {
                 // infinite recursion very possible
-                load();
+                load(old_x, prevWidth);
                 return;
             }
         }
@@ -40,16 +41,40 @@ void Food::load()
 
     usedFoods.push_back(foodFile);
     mFoodItem.loadFromFile(foodFile, mRenderer);
+
+    // setup collision box
+    collider.w = this->getWidth();
+    collider.h = this->getHeight();
+
+    std::cout << "prev width: " << prevWidth << std::endl;
+
+    // set position variables
+    if (usedFoods.size() == 1)
+    {
+        xpos = SCREEN_WIDTH * 0.55;
+    }
+    else
+    {
+        // maybe use static variable or some shit
+        // like nextxpos
+        xpos = (old_x + prevWidth) + 30;
+    }
+
+    //next_xpos = (xpos + mFoodItem.getWidth()) + 30;
+    ypos = (SCREEN_HEIGHT * 0.72) - mFoodItem.getHeight();
 }
 
-void Food::render(int x, int y, int w, int h)
+void Food::render()
 {
-    mFoodItem.render(x, y, NULL, NULL, mRenderer);
+    collider.x = xpos;
+    collider.y = ypos;
+    mFoodItem.render(xpos, ypos, NULL, NULL, mRenderer);
 }
 
 void Food::free()
 {
-
+    mRenderer = NULL;
+    mFoodItem.free();
 }
 
 int Food::getWidth()
@@ -60,4 +85,54 @@ int Food::getWidth()
 int Food::getHeight()
 {
     return mFoodItem.getHeight();
+}
+
+int Food::getX()
+{
+    return xpos;
+}
+
+int Food::getY()
+{
+    return ypos;
+}
+
+SDL_Rect Food::getCollider()
+{
+    return collider;
+}
+
+void Food::move(SDL_Rect hand)
+{
+    // we need center of item to be in center of hand
+    xpos = (hand.x + (hand.w * 0.4)) - (mFoodItem.getWidth() / 2);
+    collider.x = xpos;
+
+    ypos = (hand.y + (hand.h * 0.15)) - (mFoodItem.getHeight() / 2);
+    collider.y = ypos;
+
+    /*
+    // move left or right
+    xpos += xvel;
+    collider.x = xpos;
+
+    // if it goes off screen
+    if ((xpos < 0) || (xpos + this->getWidth() > SCREEN_WIDTH))
+    {
+        // move back
+        xpos -= xvel;
+        collider.x = xpos;
+    }
+
+    // move up or down
+    ypos += yvel;
+    collider.y = ypos;
+
+    if ((ypos < 0) || (ypos + this->getHeight() > SCREEN_HEIGHT))
+    {
+        // move back
+        ypos -= yvel;
+        collider.y = ypos;
+    }
+    */
 }

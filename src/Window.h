@@ -12,6 +12,7 @@
 #include "Person.h"
 #include "DialogueBox.h"
 #include "StateMachine.h"
+#include "Timer.h"
 #include "states/Interview.h"
 #include "states/TitleScreen.h"
 #include "states/Store.h"
@@ -25,8 +26,6 @@ class Window
         bool loadMedia();
         void close();
         void update();
-        //TTF_Font* mFont;
-        //TTF_Font* gFont;
         
         // the window renderer
         SDL_Renderer* mRenderer;
@@ -35,14 +34,12 @@ class Window
         // the window to render to
         SDL_Window* mWindow;
 
-        // the window renderer
-        //SDL_Renderer* mRenderer;
-
         TTF_Font* gFont;
 
         // textures
         Hand mCursor;
         Texture mTextTexture;
+        Texture gFPSTextTexture;
 
         // these prob will be in state
         StateMachine* state;

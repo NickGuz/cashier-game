@@ -2,13 +2,8 @@
 
 Input::Input()
 {
-    /*
-    for (int i = 0; i < MAX_KEYS; i++)
-    {
-        keysPressed[i] = false;
-    }
-    */
     std::vector<bool> keysPressed = std::vector<bool>(MAX_KEYS);
+    mousePressed = false;
 }
 
 Input::~Input()
@@ -25,7 +20,16 @@ void Input::onEvent(SDL_Event* e)
             break;
 
         case SDL_KEYDOWN:
-            onKeyDown(e->key.keysym.sym, e->key.keysym.mod, e->key.keysym.scancode);
+            if (e->key.repeat == 0)
+                onKeyDown(e->key.keysym.sym, e->key.keysym.mod, e->key.keysym.scancode);
+            break;
+
+        case SDL_MOUSEBUTTONDOWN:
+            mousePressed = true;
+            break;
+
+        case SDL_MOUSEBUTTONUP:
+            mousePressed = false;
             break;
     }
 }
@@ -43,6 +47,11 @@ void Input::onKeyDown(SDL_Keycode sym, Uint16 mod, Uint16 scancode)
 bool Input::isKeyPressed(SDL_Keycode sym)
 {
     return keysPressed[sym];
+}
+
+bool Input::isMousePressed() //SDL_Keycode sym)
+{
+    return mousePressed;
 }
 
 void Input::free()

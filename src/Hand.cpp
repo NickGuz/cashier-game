@@ -7,6 +7,7 @@ Hand::Hand()
     mIsClosed = false;
     mWidth = 0;
     mHeight = 0;
+    mState = NEUTRAL;
 }
 
 Hand::~Hand()
@@ -65,6 +66,10 @@ bool Hand::loadHands(SDL_Renderer* renderer)
         return false;
     }
 
+    // setup collision box
+    collider.w = mWidth;
+    collider.h = mHeight;
+
     return true;
 }
 
@@ -78,6 +83,20 @@ void Hand::handleEvent(SDL_Event* e)
     {
         mIsClosed = false;
     }
+}
+
+bool Hand::collides(SDL_Rect food)
+{
+    if (collider.x + (collider.w - 40) >= food.x && collider.x <= food.x + (food.w - 4))
+    {
+        if (collider.y + (collider.h * 0.2) >= food.y && collider.y <= food.y + (food.h - 4))
+        {
+            return true;
+        }
+    }
+
+    //std::cout << "Collides" << std::endl;
+    return false;
 }
 
 /*
@@ -103,6 +122,9 @@ void Hand::free()
 
 void Hand::render(int x, int y, SDL_Renderer* renderer)
 {
+    collider.x = x;
+    collider.y = y;
+
     SDL_Rect renderQuad = {x, y, mWidth * 0.8, mHeight * 0.8};
 
     if (mIsClosed)
@@ -113,4 +135,19 @@ void Hand::render(int x, int y, SDL_Renderer* renderer)
     {
         SDL_RenderCopy(renderer, mOpenHand, NULL, &renderQuad);
     }
+}
+
+SDL_Rect Hand::getCollider()
+{
+    return collider;
+}
+
+void Hand::setState(int state)
+{
+    mState = state;
+}
+
+int Hand::getState()
+{
+    return mState;
 }

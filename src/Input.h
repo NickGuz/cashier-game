@@ -15,12 +15,13 @@ class Input
         void onExit();
         void onKeyDown(SDL_Keycode sym, Uint16 mod, Uint16 scancode);
         bool isKeyPressed(SDL_Keycode sym);
+        bool isMousePressed(); // SDL_Keycode sym);
         void free();
 
-        //bool keysPressed[MAX_KEYS] = {false};
-        std::vector<bool> keysPressed; //= {false};
+        std::vector<bool> keysPressed;
 
-        // use .resize(n, false) 
+    private:
+        bool mousePressed;
 };
 
 
