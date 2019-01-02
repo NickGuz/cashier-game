@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
+#include <iostream>
 
 #define MAX_KEYS 255
 

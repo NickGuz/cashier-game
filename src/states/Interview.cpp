@@ -1,8 +1,9 @@
 #include "Interview.h"
 
-Interview::Interview(SDL_Renderer* renderer)
+Interview::Interview()
 {
-    mRenderer = renderer;
+    //mRenderer = StateMachine::mRenderer;
+    //mRenderer = renderer;
     //SDL_ShowCursor(SDL_DISABLE);
 
     mBackground.loadFromFile("img/interview/interview_bg.png", mRenderer);
@@ -12,8 +13,16 @@ Interview::Interview(SDL_Renderer* renderer)
     mDbox.addText("Hey bud");
     mDbox.addText("Im your boss now");
     mDbox.addText("Jk get out");
+    mDbox.addText("Jk I guess you're hired");
     mDbox.init();
 }
+
+/*
+Interview::~Interview()
+{
+    free();
+}
+*/
 
 void Interview::next()
 {
@@ -26,6 +35,20 @@ void Interview::render()
     mBoss.render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, mRenderer);
     mTable.render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, mRenderer);
     mDbox.render();
+}
+
+void Interview::update(Input* input)
+{
+    if (input->isKeyPressed(SDLK_SPACE))
+    {
+        if (!mDbox.next())
+        {
+            mDbox.free();
+
+            // change to store state
+            StateMachine::setNextState(STATE_STORE);
+        }
+    }
 }
 
 void Interview::free()

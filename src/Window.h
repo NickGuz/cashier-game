@@ -16,6 +16,7 @@
 #include "states/Interview.h"
 #include "states/TitleScreen.h"
 #include "states/Store.h"
+#include "Globals.h"
 
 class Window
 {
@@ -37,12 +38,12 @@ class Window
         TTF_Font* gFont;
 
         // textures
-        Hand mCursor;
+        Hand* mCursor;
         Texture mTextTexture;
         Texture gFPSTextTexture;
 
         // these prob will be in state
-        StateMachine* state;
+        //StateMachine* state;
 
         // input
         int mouse_x, mouse_y;

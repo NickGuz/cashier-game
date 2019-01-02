@@ -14,17 +14,20 @@
 #include "../Food.h"
 #include "../Person.h"
 #include "../Hand.h"
+#include "../Scanner.h"
+#include "../Window.h"
 #include <SDL2/SDL.h>
 
 class Store : public StateMachine
 {
     public:
-        Store(SDL_Renderer* renderer);
+        Store();
         // virtual destructor but idk what to do with it yet
+        //~Store();
         void render();
         void free();
         void handleEvent(SDL_Event* e);
-        void update(Input input, Hand hand);
+        void update(Input* input);
         void dayStart();
         void spawnCustomer();
 
@@ -34,11 +37,14 @@ class Store : public StateMachine
         Texture mBackground;
         Texture mCashRegister;
         DialogueBox dbox;
+        Scanner mScanner;
         // inherit this from statemachine
-        SDL_Renderer* mRenderer;
+        //SDL_Renderer* mRenderer;
 
         // create vector of customer's foods
         std::vector<Food> foods;
+
+        //Hand* mHand;
 };
 
 #endif

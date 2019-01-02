@@ -1,8 +1,8 @@
 #include "TitleScreen.h"
 
-TitleScreen::TitleScreen(SDL_Renderer* renderer)
+TitleScreen::TitleScreen()
 {
-    mRenderer = renderer;
+    //mRenderer = renderer;
     mFont = NULL;
     textColor = {0xFF, 0xFF, 0xFF};
     SDL_ShowCursor(SDL_ENABLE);
@@ -14,11 +14,13 @@ TitleScreen::TitleScreen(SDL_Renderer* renderer)
     }
     else
     {
+        
         if (!mStartButton.loadFromRenderedText("Start", textColor, mFont, mRenderer))
         {
             printf("Failed to load start button!\n");
         }
 
+        
         if (!mQuitButton.loadFromRenderedText("Quit", textColor, mFont, mRenderer))
         {
             printf("Failed to load quit button!\n");
@@ -26,10 +28,27 @@ TitleScreen::TitleScreen(SDL_Renderer* renderer)
     }
 }
 
+/*
+TitleScreen::~TitleScreen()
+{
+    free();
+}
+*/
+
+void TitleScreen::update(Input* input)
+{
+    //StateMachine::setNextState(STATE_INTERVIEW);
+    //std::cout << input.keysPressed.size() << std::endl;
+
+    if (input->isKeyPressed(SDLK_RETURN))
+    {
+        StateMachine::setNextState(STATE_INTERVIEW);
+    }
+}
+
+/*
 bool TitleScreen::handleStart(SDL_Event* e, int *mouse_x, int *mouse_y)
 {
-    printf("x: %i, y: %i\n", *mouse_x, *mouse_y);
-
     if (*mouse_x >= (SCREEN_WIDTH - mStartButton.getWidth()) / 2 && 
         *mouse_x <= (SCREEN_WIDTH + mStartButton.getWidth()) / 2 &&
         *mouse_y >= (SCREEN_HEIGHT - mStartButton.getHeight()) / 2 &&
@@ -55,6 +74,7 @@ bool TitleScreen::handleQuit(SDL_Event* e, int *mouse_x, int *mouse_y)
 
     return false;
 }
+*/
 
 void TitleScreen::render()
 {

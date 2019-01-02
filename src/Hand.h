@@ -21,6 +21,10 @@ class Hand : public Texture
         Hand();
         ~Hand();
 
+        inline static Hand* s_instance = NULL;
+
+        static Hand* getInstance();
+
         // handle open and close animation on hand
         void handleEvent(SDL_Event* e);
 
@@ -57,5 +61,12 @@ class Hand : public Texture
         // doesnt work because in loadFromFile we are writing to parent mTexture
         // so then when overriding render, the texture doesnt exist
 };
+
+/*
+namespace HandNS
+{
+    extern Hand hand;
+}
+*/
 
 #endif

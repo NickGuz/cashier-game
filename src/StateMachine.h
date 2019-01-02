@@ -2,34 +2,64 @@
 #define STATEMACHINE_H
 
 #include "Texture.h"
-//#include "states/Store.h"
-//#include "states/Interview.h"
+#include "Input.h"
+#include "Hand.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
 class Interview;
 class Store;
+class TitleScreen;
+
+enum GameStates
+{
+    STATE_NULL,
+    STATE_TITLE,
+    STATE_INTERVIEW,
+    STATE_STORE,
+    STATE_QUIT
+};
 
 class StateMachine
 {
     public:
         StateMachine();
-        virtual ~StateMachine();
-        // maybe use enum or something for this arg
-        StateMachine* setState(StateMachine* state);
-        virtual void free();
-        void setRenderer(SDL_Renderer* renderer);
+        ~StateMachine();
+        virtual void update(Input* input) = 0;
+        //virtual void update(Scene& scene);
+        virtual void render() = 0;
+        virtual void free() = 0;
 
-        Interview* getInterview();
+        static void init(SDL_Renderer* renderer);
 
-        // no idea how it knows interview exists here
-        Interview* interview;
-        static Store store;
+        // state status manager
+        static void setNextState(int newState);
+
+        // state changer
+        static void changeState();
+
+        // hand stuff
+        static void handleMouse(SDL_Event* e);
+        static void renderHand();
+
+        static Hand mHand;
+
+        // state variables
+        inline static int stateID = NULL;
+        inline static int nextState = NULL;
+
+        // game state object
+        inline static StateMachine* currentState = NULL;
+
+        // static TitleScreen title;
+        // static Interview interview;
+        // static Store store;
+
+        static int mouse_x, mouse_y;
 
     protected:
-        SDL_Renderer* mRenderer;
-        
+        inline static SDL_Renderer* mRenderer = NULL;
 };
 
 #endif

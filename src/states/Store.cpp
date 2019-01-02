@@ -2,16 +2,26 @@
 
 std::vector<std::string> Food::usedFoods(1);
 
-Store::Store(SDL_Renderer* renderer)
+Store::Store()
 {
-    mRenderer = renderer;
+    mRenderer = StateMachine::mRenderer;
     mBackground.loadFromFile("img/store/store_bg.png", mRenderer);
     mCashRegister.loadFromFile("img/store/cash_reggie.png", mRenderer);
     dbox.setRenderer(mRenderer);
     dbox.addText("Day 1");
     dbox.init();
     food.init(mRenderer);
+    mScanner.load(mRenderer);
+
+    //mHand = &Globals::gHand;
 }
+
+/*
+Store::~Store()
+{
+    free();
+}
+*/
 
 void Store::handleEvent(SDL_Event* e)
 {
@@ -27,7 +37,6 @@ void Store::dayStart()
 void Store::spawnCustomer()
 {
     // maybe?
-    Food::next_xpos;
     Food::usedFoods.clear();
     mCustomer.free();
 
@@ -67,9 +76,9 @@ void Store::spawnCustomer()
     }
 }
 
-void Store::update(Input input, Hand hand)
+void Store::update(Input* input)
 {
-    if (input.isKeyPressed(SDLK_SPACE))
+    if (input->isKeyPressed(SDLK_SPACE))
     {
         if (!dbox.next())
         {
@@ -83,18 +92,31 @@ void Store::update(Input input, Hand hand)
     {
         for (int i = 0; i < foods.size(); i++)
         {
-            if (hand.collides(foods[i].getCollider()))
+            if (mHand.collides(foods[i].getCollider()))
             {
+                //std::cout << "colliding" << std::endl;
+
                 // getState 0 is neutral hand. so if grabbing, don't allow to grab more
-                if (input.isMousePressed() && hand.getState() == NEUTRAL)
+                if (input->isMousePressed()) //&& mHand.getState() == NEUTRAL)
                 {
                     std::cout << "grabbing" << std::endl;
 
-                    foods[i].move(hand.getCollider());
+                    foods[i].move(mHand.getCollider());
                     SDL_Rect c = foods[i].getCollider();
 
+                    // check for scanning
+                    if (foods[i].collides(mScanner.getCollider()))
+                    {
+                        std::cout << "scanned" << std::endl;
+                        mScanner.scanned = true;
+                    }
+                    else
+                    {
+                        mScanner.scanned = false;
+                    }
+
                     // set state to grabbing
-                    hand.setState(GRABBING);
+                    mHand.setState(GRABBING);
                 }
             }
         }
@@ -106,6 +128,7 @@ void Store::render()
     mBackground.render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, mRenderer);
     mCustomer.render(650, 50, NULL, NULL, mRenderer);
     mCashRegister.render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, mRenderer);
+    mScanner.render(); // count frames
 
     for (int i = 0; i < foods.size(); i++)
     {

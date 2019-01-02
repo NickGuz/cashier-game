@@ -46,8 +46,6 @@ void Food::load(int old_x, int prevWidth)
     collider.w = this->getWidth();
     collider.h = this->getHeight();
 
-    std::cout << "prev width: " << prevWidth << std::endl;
-
     // set position variables
     if (usedFoods.size() == 1)
     {
@@ -102,13 +100,26 @@ SDL_Rect Food::getCollider()
     return collider;
 }
 
+bool Food::collides(SDL_Rect obj)
+{
+    if (collider.x + (collider.w - 4) >= obj.x && collider.x <= obj.x + obj.w)
+    {
+        if (collider.y + (collider.h - 4) >= obj.y && collider.y <= obj.y + obj.h)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Food::move(SDL_Rect hand)
 {
     // we need center of item to be in center of hand
-    xpos = (hand.x + (hand.w * 0.4)) - (mFoodItem.getWidth() / 2);
+    xpos = (hand.x + (hand.w * 0.3)) - (mFoodItem.getWidth() / 2);
     collider.x = xpos;
 
-    ypos = (hand.y + (hand.h * 0.15)) - (mFoodItem.getHeight() / 2);
+    ypos = (hand.y + (hand.h * 0.10)) - (mFoodItem.getHeight() / 2);
     collider.y = ypos;
 
     /*

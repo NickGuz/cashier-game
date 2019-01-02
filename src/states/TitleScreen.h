@@ -7,15 +7,16 @@
 class TitleScreen : public StateMachine
 {
     public:
-        TitleScreen(SDL_Renderer* renderer);
+        TitleScreen();
         //~TitleScreen();
         void render();
+        void update(Input* input);
         void free();
-        bool handleStart(SDL_Event* e, int *mouse_x, int *mouse_y);
-        bool handleQuit(SDL_Event* e, int *mouse_x, int *mouse_y);
+        //bool handleStart(SDL_Event* e, int *mouse_x, int *mouse_y);
+        //bool handleQuit(SDL_Event* e, int *mouse_x, int *mouse_y);
 
     private:
-        SDL_Renderer* mRenderer;
+        //SDL_Renderer* mRenderer;
         Texture mStartButton;
         Texture mQuitButton;
         TTF_Font* mFont;

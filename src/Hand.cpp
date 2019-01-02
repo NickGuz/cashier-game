@@ -8,6 +8,8 @@ Hand::Hand()
     mWidth = 0;
     mHeight = 0;
     mState = NEUTRAL;
+
+    //HandNS::hand = *this;
 }
 
 Hand::~Hand()
@@ -15,10 +17,20 @@ Hand::~Hand()
     free();
 }
 
+Hand* Hand::getInstance()
+{
+    if (!s_instance)
+    {
+        s_instance = new Hand();
+    }
+    
+    return s_instance;
+}
+
 SDL_Texture* Hand::loadFromFile(std::string path, SDL_Renderer* renderer)
 {
     // get rid of preexisting texture
-    free();
+    //free();
 
     // the final texture
     SDL_Texture* newTexture = NULL;
@@ -119,13 +131,12 @@ void Hand::free()
 }
 */
 
-
 void Hand::render(int x, int y, SDL_Renderer* renderer)
 {
     collider.x = x;
     collider.y = y;
 
-    SDL_Rect renderQuad = {x, y, mWidth * 0.8, mHeight * 0.8};
+    SDL_Rect renderQuad = {x, y, mWidth * 0.6, mHeight * 0.6};
 
     if (mIsClosed)
     {
@@ -151,3 +162,10 @@ int Hand::getState()
 {
     return mState;
 }
+
+/*
+namespace HandNS
+{
+    Hand hand = Hand();
+}
+*/

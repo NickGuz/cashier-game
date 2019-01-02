@@ -8,8 +8,11 @@ Window::Window()
     mWindow = NULL;
     mRenderer = NULL;
     gFont = NULL;
-    state = NULL;
+    //state = NULL;
     //state->setRenderer(mRenderer);
+
+    //mCursor = mCursor->getInstance();
+    mCursor = &Globals::gHand;
 
     // start SDL and create window
     if (!init())
@@ -105,7 +108,7 @@ bool Window::loadMedia()
     bool success = true;
 
     // load hand texture
-    if (!mCursor.loadHands(mRenderer))
+    if (!StateMachine::mHand.loadHands(mRenderer))
     {
         printf("Failed to load hand cursors!\n");
         success = false;
@@ -125,7 +128,7 @@ bool Window::loadMedia()
 void Window::close()
 {
     // free loaded images
-    mCursor.free();
+    mCursor->free();
     mTextTexture.free();
 
     // free states (make global or members)
@@ -134,12 +137,15 @@ void Window::close()
     //TTF_CloseFont(gFont);
     //gFont = NULL;
 
+    // state stuff
+    //delete state.currentState;
+
     // destroy window
     SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
     mWindow = NULL;
     mRenderer = NULL;
-    state = NULL;
+    //state = NULL;
 
     // quit SDL subsystems
     TTF_Quit();
@@ -152,18 +158,6 @@ void Window::update()
 {
     bool quit = false;
 
-    // do something here like statemachine.switchToState()
-    // also make pointers to other states in statemachine or something
-    //state = &StateMachine();
-    //state->interview = Interview();
-    //Interview* istate = state->getInterview();
-    //Interview* istate = state->setState("interview");
-
-    //state->setRenderer(mRenderer);
-    //state->interview = new Interview();
-
-    //Interview * istate = state->interview;
-
     Input input = Input();
 
     // fps stuff
@@ -172,11 +166,39 @@ void Window::update()
     SDL_Color textColor = {0, 255, 0, 255};
 
     // start counting fps
-    int countedFrames = 0;
+    unsigned int countedFrames = 0;
     fpsTimer.start();
 
-    Store store = Store(mRenderer);
-    TitleScreen title = TitleScreen(mRenderer);
+/*
+    // state stuff
+    // state status manager
+    void setNextState(int newState);
+
+    // state changer
+    void changeState();
+
+    // state variables
+    int stateID = STATE_NULL;
+    int nextState = STATE_NULL;
+
+    // game state object
+    StateMachine* currentState = NULL;
+
+    
+    StateMachine state = StateMachine();
+    state.init(mRenderer);
+    state.stateID = STATE_TITLE;
+    state.currentState = new TitleScreen();
+    state.nextState = NULL;
+    */
+
+    StateMachine::init(mRenderer);
+    StateMachine::stateID = STATE_TITLE;
+    StateMachine::currentState = new TitleScreen();
+    StateMachine::nextState = NULL;
+    StateMachine::mouse_x = 0;
+    StateMachine::mouse_y = 0;
+  
     bool switchScreen = false;
     bool quitGame = false;
     
@@ -188,46 +210,26 @@ void Window::update()
         // handle events on queue
         while (SDL_PollEvent(&e) != 0)
         {
+            input.keysPressed.clear();
+            input.keysPressed.resize(MAX_KEYS, false);
+
             // user requests quit
             if (e.type == SDL_QUIT)
             {
                 quit = true;
             }
-            // user presses a key
-            // make input class for this prob
-            /*
-            else if (e.type == SDL_KEYDOWN)
-            {
-                switch(e.key.keysym.sym)
-                {
-                    case SDLK_SPACE:
-                        //store.next();
-                        break;
-                }
-            }
-            */
 
             input.onEvent(&e);
 
-            SDL_GetMouseState(&mouse_x, &mouse_y);
+            SDL_GetMouseState(&StateMachine::mouse_x, &StateMachine::mouse_y);
+
+            StateMachine::currentState->update(&input);
 
             // handle open and close animation on hand
-            mCursor.handleEvent(&e);
-            store.handleEvent(&e);
-
-            // quit when user clicks "quit"
-            quitGame = title.handleQuit(&e, &mouse_x, &mouse_y);
-            if (quitGame)
-            {
-                quit = true;
-            }
-
-            // if user clicks start on title screen start the game
-            if (!switchScreen)
-            {
-                switchScreen = title.handleStart(&e, &mouse_x, &mouse_y);
-            }
+            StateMachine::handleMouse(&e);
         }
+
+        StateMachine::changeState();
 
         // calulate fps
         float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.0f);
@@ -251,38 +253,15 @@ void Window::update()
         SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
         SDL_RenderClear(mRenderer);
 
-        if (!switchScreen)
-        {
-            title.render();
-        }
-        else
-        {
-            store.update(input, mCursor);
-            store.render();
-            mCursor.render(mouse_x - 50, mouse_y - 50, mRenderer);
-        }
-
-        /*
-        // test
-        SDL_Rect rect;
-        rect.x = 100;
-        rect.y = 100;
-        rect.w = 100;
-        rect.h = 100;
-
-        if (mCursor.collides(rect))
-        {
-            std::cout << "Collides" << std::endl;
-        }
-        */
+        StateMachine::currentState->render();
+        StateMachine::renderHand();
 
         // render fps
         gFPSTextTexture.render(0, 0, gFPSTextTexture.getWidth() / 2, gFPSTextTexture.getHeight() / 2, mRenderer);
 
         // update the screen
         SDL_RenderPresent(mRenderer);
-        input.keysPressed.clear();
-        input.keysPressed.resize(MAX_KEYS, false);
+        
         countedFrames++;
     }
 }

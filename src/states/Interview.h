@@ -3,18 +3,20 @@
 
 #include "../StateMachine.h"
 #include "../DialogueBox.h"
+#include "../Input.h"
 
 class Interview : public StateMachine
 {
     public:
-        Interview(SDL_Renderer* renderer);
-
+        Interview();
+        //~Interview();
         void render();
+        void update(Input* input);
         void free();
         void next();
 
     private:
-        SDL_Renderer* mRenderer;
+        //SDL_Renderer* mRenderer;
         Texture mBackground;
         Texture mTable;
         DialogueBox mDbox;

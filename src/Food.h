@@ -21,6 +21,7 @@ class Food : public Person
         int getHeight();
         int getX();
         int getY();
+        bool collides(SDL_Rect obj);
         SDL_Rect getCollider();
 
         // makes texture out of random food item
@@ -32,7 +33,6 @@ class Food : public Person
         
         // maximum axis velocity 
         static const int FOOD_VEL = 10;
-        static int next_xpos;
 
     private:
         SDL_Renderer* mRenderer;
