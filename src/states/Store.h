@@ -1,13 +1,6 @@
 #ifndef STORE_H
 #define STORE_H
 
-/* TODO:
-** 
-** 1. Start day, person comes on screen, gives food.
-** 2. Implement grabbing.
-** 3. Implement scanning or physics.
-*/
-
 #include "../StateMachine.h"
 #include "../DialogueBox.h"
 #include "../Input.h"
@@ -38,13 +31,9 @@ class Store : public StateMachine
         Texture mCashRegister;
         DialogueBox dbox;
         Scanner mScanner;
-        // inherit this from statemachine
-        //SDL_Renderer* mRenderer;
 
         // create vector of customer's foods
         std::vector<Food> foods;
-
-        //Hand* mHand;
 };
 
 #endif
