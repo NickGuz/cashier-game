@@ -17,7 +17,7 @@ void Scanner::load(SDL_Renderer* renderer)
 {
     mRenderer = renderer;
     scanDefault.loadFromFile("img/store/scanner/try4/default.png", mRenderer);
-    scanScanned.loadFromFile("img/store/scanner/try4/scan7.png", mRenderer);
+    scanScanned.loadFromFile("img/store/scanner/try4/scan5.png", mRenderer);
 
     // set dimension variables here so we don't need to call functions every frame in render
     scanWidth = scanDefault.getWidth();

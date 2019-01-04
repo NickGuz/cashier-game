@@ -24,12 +24,6 @@ StateMachine::~StateMachine()
 void StateMachine::init(SDL_Renderer* renderer)
 {
     mRenderer = renderer;
-
-    /*
-    int stateID = NULL;
-    StateMachine* currentState = NULL;
-    int nextState = NULL;
-    */
 }
 
 void StateMachine::setNextState(int newState)

@@ -20,11 +20,22 @@ TitleScreen::TitleScreen()
             printf("Failed to load start button!\n");
         }
 
+        // set values for start button hitbox
+        startCollider.w = mStartButton.getWidth();
+        startCollider.h = mStartButton.getHeight(); 
+        startCollider.x = (SCREEN_WIDTH - mStartButton.getWidth()) / 2; 
+        startCollider.y = (SCREEN_HEIGHT - mStartButton.getHeight()) * 0.5;
         
         if (!mQuitButton.loadFromRenderedText("Quit", textColor, mFont, mRenderer))
         {
             printf("Failed to load quit button!\n");
         }
+
+        // set values for quit button hitbox
+        quitCollider.w = mQuitButton.getWidth();
+        quitCollider.h = mQuitButton.getHeight();
+        quitCollider.x = (SCREEN_WIDTH - mQuitButton.getWidth()) / 2;
+        quitCollider.y = (SCREEN_HEIGHT - mQuitButton.getHeight()) * 0.8;
     }
 }
 
@@ -37,44 +48,23 @@ TitleScreen::~TitleScreen()
 
 void TitleScreen::update(Input* input)
 {
-    //StateMachine::setNextState(STATE_INTERVIEW);
-    //std::cout << input.keysPressed.size() << std::endl;
-
     if (input->isKeyPressed(SDLK_RETURN))
     {
         StateMachine::setNextState(STATE_INTERVIEW);
     }
-}
 
-/*
-bool TitleScreen::handleStart(SDL_Event* e, int *mouse_x, int *mouse_y)
-{
-    if (*mouse_x >= (SCREEN_WIDTH - mStartButton.getWidth()) / 2 && 
-        *mouse_x <= (SCREEN_WIDTH + mStartButton.getWidth()) / 2 &&
-        *mouse_y >= (SCREEN_HEIGHT - mStartButton.getHeight()) / 2 &&
-        *mouse_y <= (SCREEN_HEIGHT + mStartButton.getHeight()) / 2 &&
-        e->type == SDL_MOUSEBUTTONDOWN)
+    // handle start button click
+    if (mHand.collides(startCollider) && input->isMousePressed())
     {
-        return true;
+        StateMachine::setNextState(STATE_INTERVIEW);
     }
 
-    return false;
-}
-
-bool TitleScreen::handleQuit(SDL_Event* e, int *mouse_x, int *mouse_y)
-{
-    if (*mouse_x >= (SCREEN_WIDTH - mQuitButton.getWidth()) / 2 &&
-        *mouse_x <= (SCREEN_WIDTH + mQuitButton.getWidth()) / 2 &&
-        *mouse_y >= (SCREEN_HEIGHT - mQuitButton.getHeight()) * 0.8 &&
-        *mouse_y <= (SCREEN_HEIGHT + mQuitButton.getHeight()) * 0.8 &&
-        e->type == SDL_MOUSEBUTTONDOWN)
+    // handle quit button click
+    if (mHand.collides(quitCollider) && input->isMousePressed())
     {
-        return true;
+        StateMachine::setNextState(STATE_QUIT);
     }
-
-    return false;
 }
-*/
 
 void TitleScreen::render()
 {

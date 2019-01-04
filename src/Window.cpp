@@ -8,11 +8,6 @@ Window::Window()
     mWindow = NULL;
     mRenderer = NULL;
     gFont = NULL;
-    //state = NULL;
-    //state->setRenderer(mRenderer);
-
-    //mCursor = mCursor->getInstance();
-    mCursor = &Globals::gHand;
 
     // start SDL and create window
     if (!init())
@@ -128,17 +123,9 @@ bool Window::loadMedia()
 void Window::close()
 {
     // free loaded images
-    mCursor->free();
     mTextTexture.free();
 
-    // free states (make global or members)
-
-    // free global font
-    //TTF_CloseFont(gFont);
-    //gFont = NULL;
-
-    // state stuff
-    //delete state.currentState;
+    //StateMachine::free();
 
     // destroy window
     SDL_DestroyRenderer(mRenderer);
@@ -169,35 +156,13 @@ void Window::update()
     unsigned int countedFrames = 0;
     fpsTimer.start();
 
-/*
     // state stuff
-    // state status manager
-    void setNextState(int newState);
-
-    // state changer
-    void changeState();
-
-    // state variables
-    int stateID = STATE_NULL;
-    int nextState = STATE_NULL;
-
-    // game state object
-    StateMachine* currentState = NULL;
-
-    
-    StateMachine state = StateMachine();
-    state.init(mRenderer);
-    state.stateID = STATE_TITLE;
-    state.currentState = new TitleScreen();
-    state.nextState = NULL;
-    */
-
     StateMachine::init(mRenderer);
     StateMachine::stateID = STATE_TITLE;
     StateMachine::currentState = new TitleScreen();
-    StateMachine::nextState = NULL;
-    StateMachine::mouse_x = 0;
-    StateMachine::mouse_y = 0;
+    //StateMachine::nextState = NULL;
+    //StateMachine::mouse_x = 0;
+    //StateMachine::mouse_y = 0;
   
     bool switchScreen = false;
     bool quitGame = false;

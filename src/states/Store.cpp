@@ -97,7 +97,7 @@ void Store::update(Input* input)
                 //std::cout << "colliding" << std::endl;
 
                 // getState 0 is neutral hand. so if grabbing, don't allow to grab more
-                if (input->isMousePressed()) //&& mHand.getState() == NEUTRAL)
+                if (input->isMousePressed()) // && mHand.getState() == NEUTRAL)
                 {
                     std::cout << "grabbing" << std::endl;
 

@@ -107,7 +107,6 @@ bool Hand::collides(SDL_Rect food)
         }
     }
 
-    //std::cout << "Collides" << std::endl;
     return false;
 }
 

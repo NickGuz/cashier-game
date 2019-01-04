@@ -16,7 +16,6 @@
 #include "states/Interview.h"
 #include "states/TitleScreen.h"
 #include "states/Store.h"
-#include "Globals.h"
 
 class Window
 {

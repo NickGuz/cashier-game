@@ -62,11 +62,4 @@ class Hand : public Texture
         // so then when overriding render, the texture doesnt exist
 };
 
-/*
-namespace HandNS
-{
-    extern Hand hand;
-}
-*/
-
 #endif

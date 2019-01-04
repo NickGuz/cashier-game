@@ -38,8 +38,8 @@ class Texture
         int getWidth();
         int getHeight();
 
-        // temp solution
-        //TTF_Font* gFont;
+        // hitbox stuff
+        bool collides();
 
     private:
         // the actual hardware texture
