@@ -73,6 +73,12 @@ void Food::free()
 {
     mRenderer = NULL;
     mFoodItem.free();
+    collider.x = NULL;
+    collider.y = NULL;
+    collider.w = NULL;
+    collider.h = NULL;
+    xpos = NULL;
+    ypos = NULL;
 }
 
 int Food::getWidth()

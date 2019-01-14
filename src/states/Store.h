@@ -9,6 +9,7 @@
 #include "../Hand.h"
 #include "../Scanner.h"
 #include "../Window.h"
+#include "../Bag.h"
 #include <SDL2/SDL.h>
 
 class Store : public StateMachine
@@ -31,9 +32,11 @@ class Store : public StateMachine
         Texture mCashRegister;
         DialogueBox dbox;
         Scanner mScanner;
+        Bag mBag;
 
         // create vector of customer's foods
         std::vector<Food> foods;
+        int foodsBagged;
 };
 
 #endif

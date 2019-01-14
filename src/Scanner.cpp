@@ -13,6 +13,13 @@ Scanner::~Scanner()
 
 }
 
+void Scanner::free()
+{
+    mRenderer = NULL;
+    scanDefault.free();
+    scanScanned.free();
+}
+
 void Scanner::load(SDL_Renderer* renderer)
 {
     mRenderer = renderer;

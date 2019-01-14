@@ -11,6 +11,7 @@ class Scanner : public Texture
     public:
         Scanner();
         ~Scanner();
+        void free();
         void load(SDL_Renderer* renderer);
         void update();
         void render();

@@ -3,7 +3,9 @@
 Input::Input()
 {
     std::vector<bool> keysPressed = std::vector<bool>(MAX_KEYS);
-    mousePressed = false;
+
+    // change to max buttons
+    //std::vector<bool> buttonsPressed = std::vector<bool>(MAX_KEYS);
 }
 
 Input::~Input()
@@ -13,6 +15,8 @@ Input::~Input()
 
 void Input::onEvent(SDL_Event* e)
 {
+    //onMButtonUp(e);
+    mouseReleased = false;
     switch (e->type)
     {
         case SDL_QUIT:
@@ -25,11 +29,17 @@ void Input::onEvent(SDL_Event* e)
             break;
 
         case SDL_MOUSEBUTTONDOWN:
+            //buttonsPressed[e->button.button] = true;
+            //std::cout << e->button.button << std::endl;
             mousePressed = true;
+            mouseReleased = false;
             break;
 
         case SDL_MOUSEBUTTONUP:
+            //buttonsPressed[e->button.button] = false;
+            //onMButtonUp();
             mousePressed = false;
+            mouseReleased = true;
             break;
     }
 }
@@ -52,6 +62,19 @@ bool Input::isKeyPressed(SDL_Keycode sym)
 bool Input::isMousePressed() //SDL_Keycode sym)
 {
     return mousePressed;
+}
+
+bool Input::isMouseReleased()
+{
+    return mouseReleased;
+}
+
+bool Input::onMButtonUp(SDL_Event* e)
+{
+    if (e->type == SDL_MOUSEBUTTONUP)
+        return true;
+
+    return false;
 }
 
 void Input::free()

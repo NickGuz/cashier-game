@@ -6,12 +6,15 @@ Store::Store()
 {
     mRenderer = StateMachine::mRenderer;
     mBackground.loadFromFile("img/store/store_bg.png", mRenderer);
-    mCashRegister.loadFromFile("img/store/cash_reggie.png", mRenderer);
+    mCashRegister.loadFromFile("img/store/cash_reg.png", mRenderer);
     dbox.setRenderer(mRenderer);
     dbox.addText("Day 1");
     dbox.init();
     food.init(mRenderer);
     mScanner.load(mRenderer);
+    mBag.load(mRenderer);
+
+    foodsBagged = 0;
 
     //mHand = &Globals::gHand;
 }
@@ -39,6 +42,7 @@ void Store::spawnCustomer()
     // maybe?
     Food::usedFoods.clear();
     mCustomer.free();
+    foodsBagged = 0;
 
     // initialize (seed) engine
     std::random_device rd;
@@ -99,7 +103,7 @@ void Store::update(Input* input)
                 // getState 0 is neutral hand. so if grabbing, don't allow to grab more
                 if (input->isMousePressed()) // && mHand.getState() == NEUTRAL)
                 {
-                    std::cout << "grabbing" << std::endl;
+                    //std::cout << "grabbing" << std::endl;
 
                     foods[i].move(mHand.getCollider());
                     SDL_Rect c = foods[i].getCollider();
@@ -115,10 +119,39 @@ void Store::update(Input* input)
                         mScanner.scanned = false;
                     }
 
+                    // check for dropping food in bag
+                    if (foods[i].collides(mBag.getCollider()) && input->isMousePressed())
+                    {
+                        mBag.isOverBag = true;
+                    }
+                    else
+                    {
+                        mBag.isOverBag = false;  
+                    }
+
                     // set state to grabbing
                     mHand.setState(GRABBING);
                 }
+
+                // doesn't work because old foods are still over bag and being bagged again
+
+                // check if user bags item
+                if (mBag.isOverBag && input->isMouseReleased())
+                {
+                    std::cout << "bagged" << std::endl;
+                    foods[i].free();
+                    foodsBagged++;
+                    mBag.isOverBag = false;
+                }
             }
+        }
+
+        //std::cout << "bagged: " << foodsBagged << " foods size: " << foods.size() << std::endl;
+        // spawn new customer if all items are bagged
+        if (foodsBagged == foods.size())
+        {
+            //dbox.free();
+            spawnCustomer();
         }
     }
 }
@@ -129,6 +162,7 @@ void Store::render()
     mCustomer.render(650, 50, NULL, NULL, mRenderer);
     mCashRegister.render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, mRenderer);
     mScanner.render(); // count frames
+    mBag.render();
 
     for (int i = 0; i < foods.size(); i++)
     {
@@ -153,6 +187,8 @@ void Store::free()
     mCashRegister.free();
     mRenderer = NULL;
     dbox.free();
+    mBag.free();
+    mScanner.free();
     Food::usedFoods.clear();
 
     for (int i = 0; i < foods.size(); i++)
