@@ -16,7 +16,20 @@ Store::Store()
 
     foodsBagged = 0;
 
-    //mHand = &Globals::gHand;
+    // init clock font and color
+    clockFont = TTF_OpenFont("fonts/comic.ttf", 32);
+
+    if (clockFont == NULL)
+    {
+        printf("Failed to load clock font! SDL_ttf Error: %s\n", TTF_GetError());
+    }
+
+    clockColor = {255, 255, 255, 255};
+
+    // init clock
+    clock.loadFromRenderedText("9:00 AM", clockColor, clockFont, mRenderer);
+    clockHour = 9;
+    clockMinute = 0;
 }
 
 /*
@@ -82,13 +95,21 @@ void Store::spawnCustomer()
 
 void Store::update(Input* input)
 {
-    if (input->isKeyPressed(SDLK_SPACE))
+    if (input->isKeyPressed(SDL_SCANCODE_SPACE))
     {
         if (!dbox.next())
         {
             dbox.free();
             spawnCustomer();
+            if (!timer.isStarted())
+                timer.start();
         }
+    }
+
+    // check if day is over
+    if (clockHour == 5)
+    {
+        StateMachine::setNextState(STATE_RESULTS);
     }
 
     // handle food movement/grabbing
@@ -179,6 +200,29 @@ void Store::render()
     */
 
     dbox.render();
+
+    // keep time and format for clock display
+    std::cout << timer.getTicks() / 100 << std::endl; 
+
+    // reset timer if hour passes
+    if (clockMinute > 59) 
+    {
+        timer.stop();
+        timer.start();
+
+        clockHour++;
+        if (clockHour > 12)
+            clockHour = 1;
+    }
+
+    clockMinute = timer.getTicks() / 100;
+
+    std::stringstream time_str;
+    time_str << clockHour << ":" << std::setfill('0') << std::setw(2) << clockMinute;
+
+    // change render text on clock, might be terrible for performance
+    clock.loadFromRenderedText(time_str.str(), clockColor, clockFont, mRenderer);
+    clock.render(SCREEN_WIDTH - clock.getWidth(), 0, clock.getWidth(), clock.getHeight(), mRenderer);
 }
 
 void Store::free()

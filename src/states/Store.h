@@ -11,6 +11,8 @@
 #include "../Window.h"
 #include "../Bag.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <iomanip>
 
 class Store : public StateMachine
 {
@@ -37,6 +39,13 @@ class Store : public StateMachine
         // create vector of customer's foods
         std::vector<Food> foods;
         int foodsBagged;
+
+        // for clock timer
+        Timer timer;
+        TTF_Font* clockFont;
+        SDL_Color clockColor;
+        Texture clock;
+        int clockHour, clockMinute;
 };
 
 #endif

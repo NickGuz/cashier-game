@@ -6,6 +6,7 @@ Input::Input()
 
     // change to max buttons
     //std::vector<bool> buttonsPressed = std::vector<bool>(MAX_KEYS);
+    mousePressed = false;
 }
 
 Input::~Input()
@@ -51,7 +52,7 @@ void Input::onExit()
 
 void Input::onKeyDown(SDL_Keycode sym, Uint16 mod, Uint16 scancode)
 {
-    keysPressed[sym] = true;
+    keysPressed[scancode] = true;
 }
 
 bool Input::isKeyPressed(SDL_Keycode sym)

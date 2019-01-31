@@ -16,8 +16,8 @@ Window::Window()
     }
     else
     {
-         // hide cursor
-        //SDL_ShowCursor(SDL_DISABLE);
+        // hide default os cursor
+        SDL_ShowCursor(SDL_DISABLE);
 
         // load media
         if (!loadMedia())
@@ -172,11 +172,13 @@ void Window::update()
 
     while (!quit)
     {
+        input.keysPressed.clear();
+        input.keysPressed.resize(MAX_KEYS, false);
+
         // handle events on queue
         while (SDL_PollEvent(&e) != 0)
         {
-            input.keysPressed.clear();
-            input.keysPressed.resize(MAX_KEYS, false);
+    
 
             // user requests quit
             if (e.type == SDL_QUIT)
@@ -188,12 +190,13 @@ void Window::update()
 
             SDL_GetMouseState(&StateMachine::mouse_x, &StateMachine::mouse_y);
 
-            StateMachine::currentState->update(&input);
 
             // handle open and close animation on hand
             StateMachine::handleMouse(&e);
         }
 
+        StateMachine::currentState->update(&input);
+        
         StateMachine::changeState();
 
         // calulate fps
@@ -207,12 +210,13 @@ void Window::update()
         fpsText.str("");
         fpsText << "FPS: " << avgFPS;
 
-
         // load fps font
         if (!gFPSTextTexture.loadFromRenderedText(fpsText.str().c_str(), textColor, gFont, mRenderer))
         {
             printf("Unable to render FPS texture!\n");
         }
+
+        //std::cout << fpsTimer.getTicks() / 1000 << std::endl;
 
         // clear screen
         SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);

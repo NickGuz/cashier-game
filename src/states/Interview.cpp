@@ -39,7 +39,7 @@ void Interview::render()
 
 void Interview::update(Input* input)
 {
-    if (input->isKeyPressed(SDLK_SPACE))
+    if (input->isKeyPressed(SDL_SCANCODE_SPACE))
     {
         if (!mDbox.next())
         {

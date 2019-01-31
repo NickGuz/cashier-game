@@ -10,6 +10,7 @@ Hand::Hand()
     mState = NEUTRAL;
 
     //HandNS::hand = *this;
+    //SDL_ShowCursor(SDL_DISABLE);
 }
 
 Hand::~Hand()
@@ -69,8 +70,11 @@ SDL_Texture* Hand::loadFromFile(std::string path, SDL_Renderer* renderer)
 
 bool Hand::loadHands(SDL_Renderer* renderer)
 {
-    mClosedHand = loadFromFile("img/arm_closed_hand.png", renderer);
-    mOpenHand = loadFromFile("img/arm_open_hand.png", renderer);
+    //mClosedHand = loadFromFile("img/arm_closed_hand.png", renderer);
+    //mOpenHand = loadFromFile("img/arm_open_hand.png", renderer);
+
+    mClosedHand = loadFromFile("img/hand/frame3_w.png", renderer);
+    mOpenHand = loadFromFile("img/hand/hand_open.png", renderer);
 
     if (mClosedHand == NULL || mOpenHand == NULL)
     {

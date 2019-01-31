@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 
-#define MAX_KEYS 255
+#define MAX_KEYS 284
 
 class Input
 {

@@ -3,6 +3,7 @@
 #include "states/Interview.h"
 #include "states/Store.h"
 #include "states/TitleScreen.h"
+#include "states/Results.h"
 
 // define static members
 int StateMachine::mouse_x = 0;
@@ -61,6 +62,10 @@ void StateMachine::changeState()
 
             case STATE_STORE:
                 currentState = new Store();
+                break;
+
+            case STATE_RESULTS:
+                currentState = new Results();
                 break;
         }
 

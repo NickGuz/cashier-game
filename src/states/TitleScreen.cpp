@@ -5,7 +5,7 @@ TitleScreen::TitleScreen()
     //mRenderer = renderer;
     mFont = NULL;
     textColor = {0xFF, 0xFF, 0xFF};
-    SDL_ShowCursor(SDL_ENABLE);
+    //SDL_ShowCursor(SDL_ENABLE);
 
     mFont = TTF_OpenFont("fonts/comic.ttf", 42);
     if (mFont == NULL)
@@ -48,7 +48,7 @@ TitleScreen::~TitleScreen()
 
 void TitleScreen::update(Input* input)
 {
-    if (input->isKeyPressed(SDLK_RETURN))
+    if (input->isKeyPressed(SDL_SCANCODE_RETURN))
     {
         StateMachine::setNextState(STATE_INTERVIEW);
     }

@@ -11,6 +11,7 @@
 class Interview;
 class Store;
 class TitleScreen;
+class Results;
 
 enum GameStates
 {
@@ -18,6 +19,7 @@ enum GameStates
     STATE_TITLE,
     STATE_INTERVIEW,
     STATE_STORE,
+    STATE_RESULTS,
     STATE_QUIT
 };
 
