@@ -19,13 +19,6 @@ Results::Results()
     }
 }
 
-/*
-Results::~Results()
-{
-
-}
-*/
-
 void Results::render()
 {
     dayOverText.render(SCREEN_WIDTH / 2 - (dayOverText.getWidth() / 2), SCREEN_HEIGHT * 0.2, dayOverText.getWidth(), dayOverText.getHeight(), mRenderer);

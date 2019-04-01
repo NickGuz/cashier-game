@@ -9,7 +9,6 @@ class TitleScreen : public StateMachine
 {
     public:
         TitleScreen();
-        //~TitleScreen();
         void render();
         void update(Input* input);
         void free();

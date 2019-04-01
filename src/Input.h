@@ -16,13 +16,11 @@ class Input
         void onExit();
         void onKeyDown(SDL_Keycode sym, Uint16 mod, Uint16 scancode);
         bool isKeyPressed(SDL_Keycode sym);
-        bool isMousePressed(); // SDL_Keycode sym);
+        bool isMousePressed();
         bool isMouseReleased();
-        bool onMButtonUp(SDL_Event* e);
         void free();
-
+        
         std::vector<bool> keysPressed;
-        std::vector<bool> buttonsPressed;
 
     private:
         bool mousePressed;

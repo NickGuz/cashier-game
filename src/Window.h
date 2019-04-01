@@ -33,16 +33,12 @@ class Window
     private:
         // the window to render to
         SDL_Window* mWindow;
-
         TTF_Font* gFont;
 
         // textures
         Hand* mCursor;
         Texture mTextTexture;
         Texture gFPSTextTexture;
-
-        // these prob will be in state
-        //StateMachine* state;
 
         // input
         int mouse_x, mouse_y;

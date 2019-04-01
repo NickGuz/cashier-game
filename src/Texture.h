@@ -45,9 +45,6 @@ class Texture
         // the actual hardware texture
         SDL_Texture* mTexture;
 
-        // the renderer
-        //SDL_Renderer* mRenderer;
-
         // image dimensions
         int mWidth;
         int mHeight;

@@ -1,5 +1,4 @@
 #include "StateMachine.h"
-//#include "states/Interview.h"
 #include "states/Interview.h"
 #include "states/Store.h"
 #include "states/TitleScreen.h"
@@ -18,7 +17,7 @@ StateMachine::StateMachine()
 
 StateMachine::~StateMachine()
 {
-    
+    //currentState->free();
 }
 
 
@@ -85,7 +84,6 @@ void StateMachine::handleMouse(SDL_Event* e)
 void StateMachine::render()
 {
     currentState->render();
-    //mHand.render(mouse_x - 50, mouse_y - 50, mRenderer);
 }
 
 void StateMachine::renderHand()

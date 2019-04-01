@@ -44,7 +44,6 @@ void Scanner::update()
 
 void Scanner::render()
 {
-    //std::cout << frames << ", " << scannedFrames << std::endl;
     if (!scanned)
         scanDefault.render((SCREEN_WIDTH / 2) * 0.39, SCREEN_HEIGHT * 0.63, scanWidth * 0.7, scanHeight * 0.7, mRenderer);
     else

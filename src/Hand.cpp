@@ -8,9 +8,6 @@ Hand::Hand()
     mWidth = 0;
     mHeight = 0;
     mState = NEUTRAL;
-
-    //HandNS::hand = *this;
-    //SDL_ShowCursor(SDL_DISABLE);
 }
 
 Hand::~Hand()
@@ -18,21 +15,8 @@ Hand::~Hand()
     free();
 }
 
-Hand* Hand::getInstance()
-{
-    if (!s_instance)
-    {
-        s_instance = new Hand();
-    }
-    
-    return s_instance;
-}
-
 SDL_Texture* Hand::loadFromFile(std::string path, SDL_Renderer* renderer)
 {
-    // get rid of preexisting texture
-    //free();
-
     // the final texture
     SDL_Texture* newTexture = NULL;
 
@@ -64,21 +48,16 @@ SDL_Texture* Hand::loadFromFile(std::string path, SDL_Renderer* renderer)
         SDL_FreeSurface(loadedSurface);
     }
 
-    // return success
     return newTexture;
 }
 
 bool Hand::loadHands(SDL_Renderer* renderer)
 {
-    //mClosedHand = loadFromFile("img/arm_closed_hand.png", renderer);
-    //mOpenHand = loadFromFile("img/arm_open_hand.png", renderer);
-
-    mClosedHand = loadFromFile("img/hand/frame3_w.png", renderer);
+    mClosedHand = loadFromFile("img/hand/frame2_w.png", renderer);
     mOpenHand = loadFromFile("img/hand/hand_open.png", renderer);
 
     if (mClosedHand == NULL || mOpenHand == NULL)
     {
-        printf("hi\n");
         return false;
     }
 
@@ -165,10 +144,3 @@ int Hand::getState()
 {
     return mState;
 }
-
-/*
-namespace HandNS
-{
-    Hand hand = Hand();
-}
-*/

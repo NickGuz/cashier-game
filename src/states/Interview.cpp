@@ -2,10 +2,6 @@
 
 Interview::Interview()
 {
-    //mRenderer = StateMachine::mRenderer;
-    //mRenderer = renderer;
-    //SDL_ShowCursor(SDL_DISABLE);
-
     mBackground.loadFromFile("img/interview/interview_bg.png", mRenderer);
     mBoss.loadFromFile("img/interview/boss.png", mRenderer);
     mTable.loadFromFile("img/interview/table.png", mRenderer);
@@ -16,13 +12,6 @@ Interview::Interview()
     mDbox.addText("Jk I guess you're hired");
     mDbox.init();
 }
-
-/*
-Interview::~Interview()
-{
-    free();
-}
-*/
 
 void Interview::next()
 {

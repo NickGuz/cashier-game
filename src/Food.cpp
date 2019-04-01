@@ -53,12 +53,11 @@ void Food::load(int old_x, int prevWidth)
     }
     else
     {
-        // maybe use static variable or some shit
+        // maybe use static variable or something
         // like nextxpos
         xpos = (old_x + prevWidth) + 30;
     }
 
-    //next_xpos = (xpos + mFoodItem.getWidth()) + 30;
     ypos = (SCREEN_HEIGHT * 0.72) - mFoodItem.getHeight();
 }
 
@@ -127,29 +126,4 @@ void Food::move(SDL_Rect hand)
 
     ypos = (hand.y + (hand.h * 0.10)) - (mFoodItem.getHeight() / 2);
     collider.y = ypos;
-
-    /*
-    // move left or right
-    xpos += xvel;
-    collider.x = xpos;
-
-    // if it goes off screen
-    if ((xpos < 0) || (xpos + this->getWidth() > SCREEN_WIDTH))
-    {
-        // move back
-        xpos -= xvel;
-        collider.x = xpos;
-    }
-
-    // move up or down
-    ypos += yvel;
-    collider.y = ypos;
-
-    if ((ypos < 0) || (ypos + this->getHeight() > SCREEN_HEIGHT))
-    {
-        // move back
-        ypos -= yvel;
-        collider.y = ypos;
-    }
-    */
 }

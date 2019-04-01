@@ -21,18 +21,9 @@ class Person : public Texture
         void render(int x, int y, int w, int h, SDL_Renderer* renderer);
         void free();
         void create(SDL_Renderer* renderer);
+        std::string getOpener();
 
     private:
-    /*
-        SDL_Texture* mSkin;
-        SDL_Texture* mShirt;
-        SDL_Texture* mHair;
-        SDL_Texture* mEyebrows;
-        SDL_Texture* mEyes;
-        SDL_Texture* mMouth;
-        SDL_Texture* mNose;
-        SDL_Texture* mBase;
-        */
         Texture mSkin;
         Texture mShirt;
         Texture mHair;
@@ -43,9 +34,17 @@ class Person : public Texture
         Texture mBase;
         int mWidth;
         int mHeight;
-        //std::vector<Texture> textures;
-        //SDL_Texture* textures;
-        //Texture textures;
+
+    protected:
+        inline static std::vector<std::string> openers = {
+            "Hey",
+            "Hello",
+            "Hi",
+            "How's it goin'?",
+            "Hey man",
+            "Ring this shit up",
+            "Hurry up"
+        };
 };
 
 #endif

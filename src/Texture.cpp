@@ -50,7 +50,6 @@ bool Texture::loadFromFile(std::string path, SDL_Renderer* renderer)
         SDL_FreeSurface(loadedSurface);
     }
 
-    // return success
     mTexture = newTexture;
     return mTexture != NULL;
 }
@@ -85,7 +84,6 @@ bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor,
         SDL_FreeSurface(textSurface);
     }
 
-    // return success
     return mTexture != NULL;
 }
 
@@ -102,10 +100,7 @@ void Texture::free()
 }
 
 void Texture::render(int x, int y, int w, int h, SDL_Renderer* renderer)
-{
-    // set rendering space and render to screen
-    //printf("Class w: %i h: %i\n", mWidth, mHeight);
-    
+{   
     // change this
     if (w == NULL || h == NULL)
     {

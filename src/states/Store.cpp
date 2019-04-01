@@ -32,27 +32,13 @@ Store::Store()
     clockMinute = 0;
 }
 
-/*
-Store::~Store()
-{
-    free();
-}
-*/
-
 void Store::handleEvent(SDL_Event* e)
 {
 
 }
 
-void Store::dayStart()
-{
-    //dbox.addText("Start");
-    //dbox.init();
-}
-
 void Store::spawnCustomer()
 {
-    // maybe?
     Food::usedFoods.clear();
     mCustomer.free();
     foodsBagged = 0;
@@ -91,6 +77,10 @@ void Store::spawnCustomer()
         old_x = foods[i].getX();
         prevWidth = foods[i].getWidth();
     }
+
+    // display and increment customer dialogue
+    dbox.addText(mCustomer.getOpener());
+    dbox.next();
 }
 
 void Store::update(Input* input)
@@ -99,7 +89,7 @@ void Store::update(Input* input)
     {
         if (!dbox.next())
         {
-            dbox.free();
+            //dbox.free();
             spawnCustomer();
             if (!timer.isStarted())
                 timer.start();
@@ -119,13 +109,9 @@ void Store::update(Input* input)
         {
             if (mHand.collides(foods[i].getCollider()))
             {
-                //std::cout << "colliding" << std::endl;
-
                 // getState 0 is neutral hand. so if grabbing, don't allow to grab more
-                if (input->isMousePressed()) // && mHand.getState() == NEUTRAL)
+                if (input->isMousePressed())
                 {
-                    //std::cout << "grabbing" << std::endl;
-
                     foods[i].move(mHand.getCollider());
                     SDL_Rect c = foods[i].getCollider();
 
@@ -154,8 +140,6 @@ void Store::update(Input* input)
                     mHand.setState(GRABBING);
                 }
 
-                // doesn't work because old foods are still over bag and being bagged again
-
                 // check if user bags item
                 if (mBag.isOverBag && input->isMouseReleased())
                 {
@@ -167,7 +151,6 @@ void Store::update(Input* input)
             }
         }
 
-        //std::cout << "bagged: " << foodsBagged << " foods size: " << foods.size() << std::endl;
         // spawn new customer if all items are bagged
         if (foodsBagged == foods.size())
         {
@@ -190,19 +173,8 @@ void Store::render()
         foods[i].render();
     }
 
-    /*
-    int xval = SCREEN_WIDTH * 0.55;
-    for (int i = 0; i < foods.size(); i++)
-    {
-        foods[i].render(xval, (SCREEN_HEIGHT * 0.72) - foods[i].getHeight(), NULL, NULL);
-        xval = (xval + foods[i].getWidth()) + 30;
-    }
-    */
-
+    // maybe clear on spacebar and then only render if customer has text, don't check for dbox.next()
     dbox.render();
-
-    // keep time and format for clock display
-    std::cout << timer.getTicks() / 100 << std::endl; 
 
     // reset timer if hour passes
     if (clockMinute > 59) 
@@ -215,6 +187,7 @@ void Store::render()
             clockHour = 1;
     }
 
+    // this determines how fast time passes (currently fast for testing purposes)
     clockMinute = timer.getTicks() / 100;
 
     std::stringstream time_str;

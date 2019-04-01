@@ -18,8 +18,6 @@ class Store : public StateMachine
 {
     public:
         Store();
-        // virtual destructor but idk what to do with it yet
-        //~Store();
         void render();
         void free();
         void handleEvent(SDL_Event* e);

@@ -23,9 +23,7 @@ class Scanner : public Texture
         Texture scanDefault;
         Texture scanScanned;
         int scanHeight, scanWidth;
-
         SDL_Rect collider;
-
         SDL_Renderer* mRenderer;
 };
 

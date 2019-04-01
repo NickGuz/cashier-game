@@ -2,7 +2,6 @@
 #define DIALOGUEBOX_H
 
 #include "Texture.h"
-//#include "StateMachine.h"
 #include "LinkedList.h"
 
 #define SCREEN_WIDTH 1280
@@ -38,6 +37,8 @@ class DialogueBox
 
         // linked list stuff
         LinkedList dialogue;
+
+        bool isEmpty;
 };
 
 #endif

@@ -21,20 +21,11 @@ class Hand : public Texture
         Hand();
         ~Hand();
 
-        inline static Hand* s_instance = NULL;
-
-        static Hand* getInstance();
-
         // handle open and close animation on hand
         void handleEvent(SDL_Event* e);
-
         void render(int x, int y, SDL_Renderer* renderer);
-
         bool collides(SDL_Rect food);
-
         SDL_Rect getCollider();
-
-        //void free();
 
         // maybe just use texture class in future?
         SDL_Texture* loadFromFile(std::string path, SDL_Renderer* renderer);
@@ -52,14 +43,11 @@ class Hand : public Texture
         int mHeight;
         bool mIsClosed;
 
-        // maybe use statemachine or some shit
+        // maybe use statemachine or something
         int mState;
 
         // collision box
         SDL_Rect collider;
-
-        // doesnt work because in loadFromFile we are writing to parent mTexture
-        // so then when overriding render, the texture doesnt exist
 };
 
 #endif

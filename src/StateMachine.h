@@ -54,10 +54,6 @@ class StateMachine
         // game state object
         inline static StateMachine* currentState = NULL;
 
-        // static TitleScreen title;
-        // static Interview interview;
-        // static Store store;
-
         static int mouse_x, mouse_y;
 
     protected:

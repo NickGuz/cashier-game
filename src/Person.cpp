@@ -1,9 +1,5 @@
 #include "Person.h"
 
-// SOLUTION
-// make texture class just a template class with basic load function in it and free
-// then loop through and call free() on all textures which will destroy the texture and null the ptr
-
 #define AMOUNT_OF_ELEMENTS 8
 
 // use boost if this doesn't work properly on all systems?
@@ -30,8 +26,6 @@ void Person::create(SDL_Renderer* renderer)
     mMouth.loadFromFile(getRandFile("img/people/face/mouths"), renderer);
     mNose.loadFromFile(getRandFile("img/people/face/noses"), renderer);
     mBase.loadFromFile("img/people/base.png", renderer);
-
-    //textures = {mSkin, mShirt, mHair, mEyebrows, mEyes, mMouth, mNose, mBase};
 }
 
 std::string Person::getRandFile(std::string path)
@@ -59,12 +53,8 @@ std::string Person::getRandFile(std::string path)
     return files[randInt];
 }
 
-// properly inherit this later
 SDL_Texture* Person::loadFromFile(std::string path, SDL_Renderer* renderer)
 {
-    // get rid of preexisting texture
-    //free();
-
     // the final texture
     SDL_Texture* newTexture = NULL;
 
@@ -96,14 +86,28 @@ SDL_Texture* Person::loadFromFile(std::string path, SDL_Renderer* renderer)
         SDL_FreeSurface(loadedSurface);
     }
 
-    // return success
     return newTexture;
+}
+
+std::string Person::getOpener()
+{
+    // initialize (seed) engine
+    std::random_device rd;
+
+    // random number engine used (mersenne-twister)
+    std::mt19937 rng(rd());
+
+    // get random int from 0 to openers size
+    std::uniform_int_distribution<int> uni(0, openers.size() - 1);
+    int randInt = uni(rng);
+
+    return openers.at(randInt);
 }
 
 // deallocate memory please
 void Person::free()
 {
-    // would be better to loop through array and free all these but it wasnt working
+    // would be better to loop through array or something and free all these
     mSkin.free();
     mShirt.free();
     mHair.free();

@@ -1,7 +1,0 @@
-/* TODO:
-** 
-** 1. Start day, person comes on screen, gives food.    DONE
-** 1. Fix Hand free(). Probably inheritance issue?
-** 2. Implement grabbing.                               DONE kinda
-** 3. Implement scanning or physics.
-*/

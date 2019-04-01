@@ -4,7 +4,6 @@ class Results : public StateMachine
 {
     public:
         Results();
-        //~Results();
         void render();
         void update(Input* input);
         void free();

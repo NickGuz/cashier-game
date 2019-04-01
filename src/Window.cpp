@@ -1,8 +1,5 @@
 #include "Window.h"
 
-//const int SCREEN_WIDTH = 1280;
-//const int SCREEN_HEIGHT = 720;
-
 Window::Window()
 {
     mWindow = NULL;
@@ -132,7 +129,6 @@ void Window::close()
     SDL_DestroyWindow(mWindow);
     mWindow = NULL;
     mRenderer = NULL;
-    //state = NULL;
 
     // quit SDL subsystems
     TTF_Quit();
@@ -160,12 +156,6 @@ void Window::update()
     StateMachine::init(mRenderer);
     StateMachine::stateID = STATE_TITLE;
     StateMachine::currentState = new TitleScreen();
-    //StateMachine::nextState = NULL;
-    //StateMachine::mouse_x = 0;
-    //StateMachine::mouse_y = 0;
-  
-    bool switchScreen = false;
-    bool quitGame = false;
     
     // event handler
     SDL_Event e;
@@ -178,8 +168,6 @@ void Window::update()
         // handle events on queue
         while (SDL_PollEvent(&e) != 0)
         {
-    
-
             // user requests quit
             if (e.type == SDL_QUIT)
             {
@@ -199,7 +187,7 @@ void Window::update()
         
         StateMachine::changeState();
 
-        // calulate fps
+        // calculate fps
         float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.0f);
         if (avgFPS > 2000000)
         {
@@ -215,8 +203,6 @@ void Window::update()
         {
             printf("Unable to render FPS texture!\n");
         }
-
-        //std::cout << fpsTimer.getTicks() / 1000 << std::endl;
 
         // clear screen
         SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
